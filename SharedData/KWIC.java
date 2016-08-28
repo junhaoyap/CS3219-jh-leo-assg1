@@ -45,6 +45,9 @@ public class KWIC{
 	    String fileName = sc.next();
 	    
 	    wordsToIgnore = (ArrayList<String>) Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+	    for (int i=0; i<wordsToIgnore.size(); i++) {
+	    	wordsToIgnore.set(i, wordsToIgnore.get(i).toLowerCase());
+	    }
   }
   
   public void determineOutputFile(Scanner sc) {
@@ -62,9 +65,13 @@ public class KWIC{
 		  for(int j=0; j<wordCount; j++) {
 			  firstWord = getFirstWord(title);
 			  if(!wordsToIgnore.contains(firstWord.toLowerCase())) { // only process this permutation if the keyword is not ignored
+				  title = capitalizeFirstLetter(title);
 				  this.kwicResult.add(title);
+			  } else {
+				  title = decapitalizeFirstLetter(title);
 			  }
 			  title = swapFirstWordToLast(title);
+			  listOfWords.set(i, title);
 		  }
 	  }
   }
@@ -81,8 +88,29 @@ public class KWIC{
   
   public static String swapFirstWordToLast (String title) {
 	  String swappedTitle;
-	  swappedTitle = title.substring(title.indexOf(" ") + 1, title.length()) + " " + getFirstWord(title);
+	  String swappedWord = getFirstWord(title);
+	  swappedTitle = title.substring(title.indexOf(" ") + 1, title.length()) + " " + swappedWord;
 	  return swappedTitle;
+  }
+  
+  public static String capitalizeFirstLetter(String string) {
+	  if (string.length() > 2) {
+		  return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+	  } else if (string.length() == 1) {
+		  return string.toUpperCase();
+	  } else {
+		  return "";
+	  }
+  }
+  
+  public static String decapitalizeFirstLetter(String string) {
+	  if (string.length() > 2) {
+		  return Character.toLowerCase(string.charAt(0)) + string.substring(1);
+	  } else if (string.length() == 1) {
+		  return string.toLowerCase();
+	  } else {
+		  return "";
+	  }
   }
 
   public void sortArrayAlphabetically(){
