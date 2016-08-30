@@ -77,7 +77,11 @@ public class KWIC{
   }
   
   public static String getFirstWord(String title) {
-	  return title.substring(0, title.indexOf(" "));
+	  if (title.indexOf(" ") != -1) {
+		  return title.substring(0, title.indexOf(" "));
+	  } else {
+		  return title; // it is a one word title
+	  }
   }
   
   public static int getNumberOfWords(String title) {
